@@ -30,13 +30,13 @@ extension Commit {
                         return
                     }
 
-                    if let commits = json as? NSDictionary[] {
+                    if let commits = json as? [NSDictionary] {
                         if commits.count == 0 {
                             failure(error: self.commitError(CommitErrorCode.NoCommits))
                         } else {
                             let latest = commits[0]
-                            if let message = latest["commit"]?["message"] as? String {
-                                if let author = latest["author"]?["login"] as? String {
+                            if let message = latest.valueForKeyPath("commit.message") as? String {
+                                if let author = latest.valueForKeyPath("author.login") as? String {
                                     let commit = Commit(message: message, author: author)
                                     success(commit: commit)
                                     return
